@@ -1,5 +1,6 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import Dashboard from "./Dashboard";
 
 import {
   GraduationCap,
@@ -31,6 +32,8 @@ export default function App() {
   const [helpOpen, setHelpOpen] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
+  const [isEnteringDashboard, setIsEnteringDashboard] = useState(false);
   const fluidCanvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -185,11 +188,24 @@ export default function App() {
     /*
       FRONTEND DEMO ONLY
 
-      Connect this handler to your backend authentication API
-      before using real student or administrator accounts.
+      This temporarily opens the admin dashboard when the Admin role is
+      selected and the form is filled. It does NOT authenticate the user.
+      Connect this handler to your backend API before real deployment.
     */
+    if (role === "admin") {
+      setNotice("");
+      setIsEnteringDashboard(true);
+
+      // Let the ambient transition finish before mounting the dashboard.
+      window.setTimeout(() => {
+        setShowAdminDashboard(true);
+      }, 1150);
+
+      return;
+    }
+
     showMessage(
-      "The login interface is ready, but authentication is not connected yet. Connect your backend API to sign in.",
+      "The student login interface is ready, but authentication is not connected yet. Connect your backend API to sign in.",
       "info"
     );
   }
@@ -213,8 +229,31 @@ export default function App() {
     );
   }
 
+  // Demo navigation: show the dashboard after submitting the Admin login form.
+  if (showAdminDashboard) {
+    return <Dashboard />;
+  }
+
   return (
     <main className="login-shell">
+      {isEnteringDashboard && (
+        <div className="dashboard-transition" role="status" aria-live="polite">
+          <div className="transition-atmosphere" />
+          <div className="transition-orbit transition-orbit-one" />
+          <div className="transition-orbit transition-orbit-two" />
+          <div className="transition-orbit transition-orbit-three" />
+          <div className="transition-center">
+            <div className="transition-emblem">
+              <GraduationCap size={25} strokeWidth={1.6} />
+            </div>
+            <span className="transition-kicker">LSPU · SCC</span>
+            <strong>Preparing your workspace</strong>
+            <span className="transition-caption">A better view of every internship milestone.</span>
+            <span className="transition-progress"><i /></span>
+          </div>
+          <span className="transition-corner-label">COLLEGE INTERNSHIP HUB <span> / </span> ADMIN</span>
+        </div>
+      )}
       <canvas ref={fluidCanvasRef} className="fluid-cursor-canvas" aria-hidden="true" />
       {/* LEFT: UNIVERSITY BRANDING */}
       <section
