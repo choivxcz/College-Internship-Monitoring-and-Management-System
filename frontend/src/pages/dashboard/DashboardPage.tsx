@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import { useAmbientPointer } from "../../hooks/useAmbientPointer";
+import AmbientGlow from "../../components/ui/AmbientGlow";
 import { Activity, Bell, BriefcaseBusiness, CalendarDays, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, ClipboardList, Download, FileCheck2, FileText, Flag, GraduationCap, LayoutDashboard, Search, ShieldCheck, Users, ChartNoAxesCombined, Clock3, ArrowUpRight, Menu, X } from "lucide-react";
 import "./dashboard.css";
+import ModulePage from "../../components/layout/ModulePage";
+import StudentProfilesPage from "../students/StudentProfilesPage";
 
 type AppRow = { name:string; id:string; program:string; organization:string; position:string; status:"Not applied"|"Applying"|"Accepted"|"Interning"|"Completed" };
 type Issue = { initials:string; name:string; id:string; program:string; issue:string; type:"red"|"orange"|"blue"; adviser:string; action:string };
@@ -23,13 +27,14 @@ const rows:AppRow[]=[
  {name:"Maristela Moises",id:"2023-0246",program:"BSBA 4A",organization:"CivicWorks Laguna",position:"Admin Intern",status:"Accepted"}
 ];
 const nav=[["Overview",LayoutDashboard],["Student profiles",Users],["Applications",BriefcaseBusiness],["Documents",FileCheck2],["Progress monitoring",ChartNoAxesCombined],["Monitoring & reports",FileText]] as const;
-export default function Dashboard(){
+export default function DashboardPage(){
  const [active,setActive]=useState("Overview"),[semester,setSemester]=useState("1st semester · 2026–27"),[search,setSearch]=useState(""),[program,setProgram]=useState("All programs"),[status,setStatus]=useState("All statuses"),[page,setPage]=useState(1),[mobile,setMobile]=useState(false),[issue,setIssue]=useState<Issue|null>(null),[reports,setReports]=useState(false);
  const [toast,setToast]=useState<ToastMessage|null>(null);
  const [quickSearchOpen,setQuickSearchOpen]=useState(false);
  const [notificationsOpen,setNotificationsOpen]=useState(false);
  const [profileMenu,setProfileMenu]=useState(false);
  const [followedIssues,setFollowedIssues]=useState<string[]>([]);
+ const { stageRef, handlePointerMove, handlePointerLeave } = useAmbientPointer<HTMLDivElement>();
  useEffect(()=>{
    const onKeyDown=(event:KeyboardEvent)=>{
      if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k") { event.preventDefault(); setQuickSearchOpen(true); }
@@ -41,18 +46,29 @@ export default function Dashboard(){
  const filtered=useMemo(()=>rows.filter(r=>(!search||[r.name,r.id,r.organization,r.position].some(x=>x.toLowerCase().includes(search.toLowerCase())))&&(program==="All programs"||r.program.startsWith(program))&&(status==="All statuses"||r.status===status)),[search,program,status]);
  const pages=Math.max(1,Math.ceil(filtered.length/6)),shown=filtered.slice((Math.min(page,pages)-1)*6,Math.min(page,pages)*6);
  function exportCSV(){const csv=[["Student","Student ID","Program","Organization","Position","Status"],...filtered.map(r=>[r.name,r.id,r.program,r.organization,r.position,r.status])].map(r=>r.map(x=>`"${x.replace(/"/g,'""')}"`).join(",")).join("\r\n");const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));const a=document.createElement("a");a.href=url;a.download="internship-application-register.csv";a.click();URL.revokeObjectURL(url);setToast({title:"Register exported",detail:`${filtered.length} application records included in the CSV.`,kind:"success"})}
- return <div className="admin-dashboard cinematic-cursor-stage" onPointerMove={e=>{const rect=e.currentTarget.getBoundingClientRect();e.currentTarget.style.setProperty("--cursor-x",`${e.clientX-rect.left}px`);e.currentTarget.style.setProperty("--cursor-y",`${e.clientY-rect.top}px`);}} onPointerLeave={e=>{e.currentTarget.style.setProperty("--cursor-x","-1000px");e.currentTarget.style.setProperty("--cursor-y","-1000px");}}>
+ return <div ref={stageRef} className="admin-dashboard cinematic-cursor-stage" onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
+ <AmbientGlow />
  {mobile&&<button className="dashboard-scrim" aria-label="Close navigation" onClick={()=>setMobile(false)}/>}
  <aside className={`dashboard-sidebar ${mobile?"is-open":""}`}>
   <div className="sidebar-brand"><div className="sidebar-logo"><GraduationCap size={19}/></div><div><strong>LSPU - SCC</strong><span>COLLEGE INTERNSHIP HUB</span></div><button className="mobile-close" onClick={()=>setMobile(false)} aria-label="Close menu"><X size={17}/></button></div>
   <div className="semester-picker"><label htmlFor="semester">ACADEMIC WORKSPACE</label><div className="semester-select-wrap"><select id="semester" value={semester} onChange={e=>setSemester(e.target.value)}><option>1st semester · 2026–27</option><option>2nd semester · 2026–27</option><option>Summer term · 2027</option><option>1st semester · 2025–26</option></select><ChevronDown size={13}/></div></div>
-  <nav className="sidebar-nav"><p className="nav-group-title">MANAGE INTERNSHIPS</p>{nav.map(([label,Icon])=><button key={label} className={`nav-item ${active===label?"active":""}`} onClick={()=>{setActive(label);setMobile(false);setToast({title:label==="Overview"?"Overview opened":`${label} selected`,detail:label==="Overview"?"You're back at the semester overview.":"This section is a UI preview; connect its module to your backend for live records.",kind:"info"})}}><Icon size={15}/><span>{label}</span>{label==="Applications"&&<span className="nav-count">312</span>}</button>)}</nav>
+  <nav className="sidebar-nav"><p className="nav-group-title">MANAGE INTERNSHIPS</p>{nav.map(([label,Icon])=><button key={label} className={`nav-item ${active===label?"active":""}`} onClick={()=>{
+    setActive(label);
+    setMobile(false);
+    setPage(1);
+    setSearch("");
+    setProgram("All programs");
+    setStatus("All statuses");
+    setToast(null);
+  }}><Icon size={15}/><span>{label}</span>{label==="Applications"&&<span className="nav-count">312</span>}</button>)}</nav>
   <div className="sidebar-help"><div className="help-icon"><CircleHelp size={14}/></div><strong>A little guidance?</strong><p>Find policies, templates and coordinator resources.</p><button onClick={()=>setReports(true)}>Open resource center <ArrowUpRight size={12}/></button></div>
   <div className="sidebar-user"><div className="user-avatar">JP</div><div><strong>John Paul Carrillo Zara</strong><span>Internship coordinator</span></div></div>
  </aside>
  <main className="dashboard-main">
   <header className="dashboard-topbar"><div className="topbar-left"><button className="mobile-menu" aria-label="Open menu" onClick={()=>setMobile(true)}><Menu size={19}/></button><span>Internship hub</span><ChevronRight size={12}/><strong>{active}</strong><button className="quick-search-trigger" onClick={()=>setQuickSearchOpen(true)} aria-label="Open quick search"><Search size={11}/><span>Quick search</span><kbd>Ctrl K</kbd></button></div><div className="topbar-right"><span className="today-label">Friday, 09 Oct 2026</span><div className="topbar-popover-wrap"><button className={`topbar-icon ${notificationsOpen?"is-active":""}`} aria-label="Notifications" onClick={()=>{setNotificationsOpen(v=>!v);setProfileMenu(false)}}><Bell size={15}/><i/></button>{notificationsOpen&&<div className="topbar-popover notification-popover"><div className="popover-heading"><strong>Notifications</strong><span>2 updates</span></div><button onClick={()=>{setNotificationsOpen(false);setActive("Progress monitoring");setToast({title:"Adviser review due soon",detail:"Midterm adviser review is due 16 October.",kind:"info"})}}><span className="notification-dot amber-dot"/><span><strong>Midterm adviser review</strong><small>Due 16 October · 22 students nearing completion</small></span></button><button onClick={()=>{setNotificationsOpen(false);setActive("Documents");setToast({title:"Documents need attention",detail:"38 requirement exceptions are currently flagged.",kind:"info"})}}><span className="notification-dot violet-dot"/><span><strong>Pending requirements</strong><small>38 requirement exceptions need review</small></span></button><button className="popover-footer-action" onClick={()=>{setNotificationsOpen(false);setActive("Monitoring & reports")}}>View monitoring summary <ArrowUpRight size={11}/></button></div>}</div><div className="topbar-popover-wrap"><button className="topbar-avatar" aria-label="User profile menu" onClick={()=>{setProfileMenu(v=>!v);setNotificationsOpen(false)}}>JP</button>{profileMenu&&<div className="topbar-popover profile-popover"><div className="profile-popover-user"><span className="user-avatar">JP</span><span><strong>John Paul Carrillo Zara</strong><small>Internship coordinator</small></span></div><button onClick={()=>{setProfileMenu(false);setToast({title:"Profile settings",detail:"Profile editing will be available when account settings are connected.",kind:"info"})}}>Account settings <ArrowUpRight size={11}/></button><button onClick={()=>{setProfileMenu(false);setReports(true)}}>Help & resources <CircleHelp size={12}/></button></div>}</div></div></header>
   <div className="dashboard-content">
+   {active === "Overview" ? (
+   <>
    <section className="dashboard-heading"><div><p className="mobile-context">ADMIN WORKSPACE / OVERVIEW</p><h1>{active==="Overview"?"Your internship overview":active}</h1><p>A clear view of placements, requirements and student progress across the college.</p></div><button className="report-button" onClick={()=>setReports(true)}><ChartNoAxesCombined size={14}/> View reports</button></section>
    <section className="semester-banner"><div><CalendarDays size={14}/><span>{semester.replace(" · ",", ")} <b>·</b> 240 students across 3 programs</span></div><span className="updated-label">Updated today at 10:42 AM</span></section>
    <section className="stat-grid">
@@ -74,6 +90,12 @@ export default function Dashboard(){
     <div className="register-table-wrap"><table className="register-table"><thead><tr><th>Student</th><th>Organization</th><th>Position</th></tr></thead><tbody>{shown.map(r=><tr key={r.id+r.organization}><td><strong>{r.name}</strong><small>{r.id} · {r.program}</small></td><td>{r.organization}</td><td><span className="position-cell">{r.position}</span><span className={`status-mini status-${r.status.toLowerCase().replace(/ /g,"-")}`}>{r.status}</span></td></tr>)}{!shown.length&&<tr><td colSpan={3} className="empty-state">No applications match your filters.</td></tr>}</tbody></table></div>
     <div className="register-pagination"><span>Showing {filtered.length?(Math.min(page,pages)-1)*6+1:0}–{Math.min(Math.min(page,pages)*6,filtered.length)} of {filtered.length} applications</span><div><button disabled={page<=1} onClick={()=>setPage(x=>Math.max(1,x-1))}><ChevronLeft size={13}/> Previous</button><span className="page-number">{Math.min(page,pages)}</span><button disabled={page>=pages} onClick={()=>setPage(x=>Math.min(pages,x+1))}>Next <ChevronRight size={13}/></button></div></div>
    </section></div>
+   </>
+   ) : active === "Student profiles" ? (
+  <StudentProfilesPage />
+  ) : (
+  <ModulePage active={active} />
+  )}
    <footer className="dashboard-footer"><span>© 2026 LSPU-SCC College Internship Hub</span><span><ShieldCheck size={12}/> Internal administrative workspace</span></footer>
   </div>
  </main>
