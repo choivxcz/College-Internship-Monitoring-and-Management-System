@@ -1,8 +1,18 @@
 /* Dedicated Student Profiles page */
 .student-profile-page {
   display:flex; flex-direction:column; gap:14px; width:100%; min-width:0;
-  color:#263653; animation:dashboardContentIn .3s ease both;
+  position:relative; isolation:isolate; overflow:clip;
+  color:#263653; animation:studentPageEnter .45s cubic-bezier(.2,.75,.25,1) both;
+  background: transparent; /* Keep the page background clean; no ambient color wash. */
 }
+/* Option 1: remove the large decorative ambient glows behind the heading and filters. */
+.student-profile-page::before,
+.student-profile-page::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+.student-profile-page > * { position:relative; z-index:1; }
 .student-page-heading { display:flex; align-items:center; justify-content:space-between; gap:18px; }
 .student-page-heading h1 { margin:0 0 5px; color:#263653; font-size:clamp(22px,2vw,29px); font-weight:700; letter-spacing:-.04em; }
 .student-page-heading p { margin:0; color:#8794ad; font-size:12px; line-height:1.55; }
@@ -29,9 +39,9 @@
 .student-directory-heading strong { font-size:11px; font-weight:650; }
 .student-directory-heading span { color:#98a2b5; font-size:9px; white-space:nowrap; }
 .student-directory-list { display:flex; flex-direction:column; gap:6px; }
-.student-directory-item { display:grid; grid-template-columns:25px minmax(0,1fr) 13px; align-items:center; gap:8px; width:100%; padding:10px 9px 8px; border:1px solid #e8ecf5; border-radius:8px; background:#fff; color:inherit; text-align:left; cursor:pointer; transition:border-color .18s,background .18s; }
-.student-directory-item:hover { border-color:#d2ceff; background:#fbfaff; }
-.student-directory-item.is-selected { border-color:#d8d3ff; background:#f0efff; }
+.student-directory-item { display:grid; grid-template-columns:25px minmax(0,1fr) 13px; align-items:center; gap:8px; width:100%; padding:10px 9px 8px; border:1px solid #e8ecf5; border-radius:8px; background:#fff; color:inherit; text-align:left; cursor:pointer; transition:border-color .24s ease,background .24s ease,transform .24s cubic-bezier(.2,.75,.25,1),box-shadow .24s ease; }
+.student-directory-item:hover { border-color:#d2ceff; background:#fbfaff; transform:translateX(2px); box-shadow:0 5px 14px rgba(81,72,220,.06); }
+.student-directory-item.is-selected { border-color:#d8d3ff; background:linear-gradient(110deg,#f0efff,#fbfaff); box-shadow:inset 3px 0 0 #6659ed,0 5px 16px rgba(81,72,220,.07); }
 .student-avatar { display:flex; align-items:center; justify-content:center; width:25px; height:25px; flex-shrink:0; border-radius:50%; background:#eeedff; color:#5b50e7; font-size:10px; font-weight:600; }
 .student-directory-main { display:flex; flex-direction:column; gap:3px; min-width:0; }
 .student-directory-main strong { overflow:hidden; color:#2c3953; font-size:10px; font-weight:650; text-overflow:ellipsis; white-space:nowrap; }
@@ -49,8 +59,9 @@
 .student-pagination > div { display:flex; align-items:center; gap:5px; }
 .student-pagination button { display:flex; align-items:center; justify-content:center; width:22px; height:22px; border:1px solid #e8ecf5; border-radius:5px; background:#fff; color:#6258e5; cursor:pointer; }
 .student-pagination button:disabled { color:#c5cada; cursor:not-allowed; }
-.student-profile-details { display:flex; flex-direction:column; gap:14px; min-width:0; }
-.student-detail-card { padding:14px; }
+.student-profile-details { display:flex; flex-direction:column; gap:14px; min-width:0; transform-origin:top center; }
+.student-detail-card { padding:14px; transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease; }
+.student-detail-card:hover { border-color:#dce2f1; box-shadow:0 8px 24px rgba(31,45,78,.045); }
 .student-identity-top { display:flex; align-items:flex-start; gap:11px; }
 .student-avatar-large { width:38px; height:38px; font-size:13px; }
 .student-identity-copy { flex:1; min-width:0; }
@@ -62,7 +73,8 @@
 .student-contact-line span { display:inline-flex; align-items:center; gap:4px; min-width:0; overflow-wrap:anywhere; }
 .student-outline-button { min-height:29px; padding:6px 9px; font-size:9px; }
 .student-tabs { display:flex; align-items:center; gap:17px; margin-top:15px; border-bottom:1px solid #edf0f6; overflow-x:auto; }
-.student-tabs button { position:relative; flex-shrink:0; padding:0 0 9px; border:0; background:transparent; color:#8a96ad; font-size:9px; cursor:pointer; }
+.student-tabs button { position:relative; flex-shrink:0; padding:0 0 9px; border:0; background:transparent; color:#8a96ad; font-size:9px; cursor:pointer; transition:color .2s ease,transform .2s ease; }
+.student-tabs button:hover { color:#5147d6; transform:translateY(-1px); }
 .student-tabs button.active { color:#4f46d5; font-weight:650; }
 .student-tabs button.active::after { position:absolute; right:0; bottom:-1px; left:0; height:2px; border-radius:2px; background:#5b50e7; content:""; }
 .student-identity-summary { display:grid; grid-template-columns:1fr 1fr 1.15fr; gap:12px; padding-top:12px; }
@@ -113,3 +125,122 @@
 @media(max-width:1050px) { .student-workspace {grid-template-columns:minmax(200px,.36fr) minmax(0,1fr)} .student-filter-bar {flex-wrap:wrap} .student-search-box {max-width:none;flex-basis:100%} .student-record-count {margin-left:0} }
 @media(max-width:760px) { .student-page-heading {align-items:flex-start} .student-workspace {grid-template-columns:1fr} .student-directory-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr))} .student-identity-summary {grid-template-columns:1fr 1fr} .student-identity-summary .student-info-field:last-child {grid-column:1/-1} .student-identity-top {flex-wrap:wrap} .student-identity-copy {min-width:calc(100% - 60px)} .student-identity-top>.student-outline-button {margin-left:49px} }
 @media(max-width:480px) { .student-page-heading {flex-direction:column} .student-filter-bar {align-items:stretch} .student-select-wrap {flex:1 1 40%} .student-select-wrap select {max-width:none} .student-directory-list {grid-template-columns:1fr} .student-info-grid,.student-form-grid {grid-template-columns:1fr} .student-form-wide {grid-column:auto} .student-modal-heading,.student-modal form {padding-right:16px;padding-left:16px} .student-contact-line {flex-direction:column;align-items:flex-start} }
+
+@keyframes studentPageEnter {
+  from { opacity:0; transform:translateY(7px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes studentProfileSwitch {
+  0% { opacity:0; transform:translateY(12px) scale(.992); filter:blur(3px); }
+  65% { opacity:1; filter:blur(0); }
+  100% { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+}
+@keyframes studentAmbientFloat {
+  from { transform:translate3d(0,-8px,0) scale(.96); }
+  to { transform:translate3d(-18px,18px,0) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .student-profile-page, .student-profile-page::before, .student-profile-page::after,
+  .student-profile-details, .student-directory-item, .student-detail-card, .student-tabs button {
+    animation:none !important; transition:none !important; scroll-behavior:auto !important;
+  }
+}
+
+/* Temporary color transition: visible only while switching students. */
+.student-profile-details {
+  position: relative;
+  isolation: isolate;
+  transform-origin: top center;
+}
+
+.student-profile-details.is-switching {
+  animation: studentProfileSwitchClean 680ms cubic-bezier(.22, 1, .36, 1) both;
+  box-shadow: 0 0 0 1px rgba(105, 89, 255, 0);
+}
+
+.student-profile-details.is-switching::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  top: -8px;
+  right: 0;
+  width: min(70%, 420px);
+  height: 150px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 35% 45%, rgba(105, 89, 255, .25), transparent 62%),
+    radial-gradient(ellipse at 72% 52%, rgba(36, 190, 174, .20), transparent 62%);
+  filter: blur(20px);
+  opacity: 0;
+  animation: studentTemporaryColorGlow 780ms ease-out both;
+}
+
+.student-profile-details.is-switching::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  top: 0;
+  bottom: 0;
+  left: -30%;
+  width: 28%;
+  border-radius: 12px;
+  background: linear-gradient(105deg,
+    transparent 0%,
+    rgba(105, 89, 255, .06) 25%,
+    rgba(105, 89, 255, .22) 43%,
+    rgba(36, 190, 174, .20) 58%,
+    rgba(255, 255, 255, .30) 68%,
+    transparent 100%);
+  filter: blur(7px);
+  opacity: 0;
+  transform: skewX(-12deg);
+  animation: studentTemporaryColorSweep 680ms ease-out both;
+}
+
+.student-profile-details.is-switching > .student-detail-card {
+  animation: studentCardRevealClean 520ms cubic-bezier(.2, .8, .25, 1) both;
+}
+.student-profile-details.is-switching > .student-detail-card:nth-child(1) { animation-delay: 25ms; }
+.student-profile-details.is-switching > .student-detail-card:nth-child(2) { animation-delay: 75ms; }
+.student-profile-details.is-switching > .student-detail-card:nth-child(3) { animation-delay: 125ms; }
+.student-profile-details.is-switching > .student-detail-card:nth-child(4) { animation-delay: 175ms; }
+
+@keyframes studentProfileSwitchClean {
+  0% { opacity: .72; transform: translateY(12px); box-shadow: 0 0 0 1px rgba(105, 89, 255, .28); }
+  45% { opacity: 1; box-shadow: 0 0 0 1px rgba(105, 89, 255, .20), 0 0 18px rgba(105, 89, 255, .10); }
+  100% { opacity: 1; transform: translateY(0); box-shadow: 0 0 0 1px rgba(105, 89, 255, 0); }
+}
+@keyframes studentTemporaryColorGlow {
+  0% { opacity: 0; transform: translate(10px, 8px) scale(.78); }
+  28% { opacity: 1; }
+  68% { opacity: .45; }
+  100% { opacity: 0; transform: translate(-4px, -4px) scale(1.08); }
+}
+@keyframes studentTemporaryColorSweep {
+  0% { opacity: 0; left: -30%; }
+  20% { opacity: .75; }
+  65% { opacity: .4; }
+  100% { opacity: 0; left: 115%; }
+}
+@keyframes studentCardRevealClean {
+  0% { opacity: .65; transform: translateY(9px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-profile-page,
+  .student-profile-details,
+  .student-profile-details::before,
+  .student-profile-details::after,
+  .student-profile-details > .student-detail-card,
+  .student-directory-item,
+  .student-detail-card,
+  .student-tabs button {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}

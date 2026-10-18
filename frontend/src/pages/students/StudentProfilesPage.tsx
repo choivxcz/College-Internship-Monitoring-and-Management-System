@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent, type ReactNode } from "react";
+import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
   Search, Plus, ChevronRight, ChevronLeft, ChevronDown, Pencil, Building2,
   Mail, Phone, ExternalLink, X, BriefcaseBusiness, FileCheck2, Clock3,
@@ -105,6 +105,26 @@ function InfoField({label,children}:{label:string;children:ReactNode}) {
 export default function StudentProfilesPage() {
   const [students,setStudents] = useState<Student[]>(initialStudents);
   const [selectedId,setSelectedId] = useState("2023-0138");
+  const [profileAnimating,setProfileAnimating] = useState(false);
+  const animationTimer = useRef<number | undefined>(undefined);
+
+  function selectStudent(studentId: string) {
+    // Remove the animation class first, then reapply it after a short pause
+    // so the browser reliably starts the animation on every click.
+    if (animationTimer.current !== undefined) {
+      window.clearTimeout(animationTimer.current);
+    }
+    setProfileAnimating(false);
+    setSelectedId(studentId);
+    setTab("Profile overview");
+    animationTimer.current = window.setTimeout(() => {
+      setProfileAnimating(true);
+      animationTimer.current = window.setTimeout(() => {
+        setProfileAnimating(false);
+        animationTimer.current = undefined;
+      }, 850);
+    }, 25);
+  }
   const [query,setQuery] = useState("");
   const [program,setProgram] = useState("All programs");
   const [section,setSection] = useState("All sections");
@@ -185,7 +205,7 @@ export default function StudentProfilesPage() {
           <div className="student-directory-list">
             {visible.map(student=>{
               const isSelected=student.id===selected.id;
-              return <button key={student.id} type="button" className={`student-directory-item ${isSelected?"is-selected":""}`} onClick={()=>{setSelectedId(student.id);setTab("Profile overview");}}>
+              return <button key={student.id} type="button" className={`student-directory-item ${isSelected?"is-selected":""}`} onClick={()=>selectStudent(student.id)}>
                 <span className="student-avatar">{initials(student.name)}</span>
                 <span className="student-directory-main"><strong>{student.name}</strong><small>{student.id} · {student.program} {student.section}</small></span>
                 <ChevronRight className="student-directory-chevron" size={14}/>
@@ -197,7 +217,7 @@ export default function StudentProfilesPage() {
           <div className="student-pagination"><span>Showing {visible.length?(page-1)*pageSize+1:0}–{Math.min(page*pageSize,filtered.length)} of {filtered.length}</span><div><button type="button" disabled={page<=1} onClick={()=>setPage(v=>v-1)} aria-label="Previous page"><ChevronLeft size={14}/></button><span>{page}/{pageCount}</span><button type="button" disabled={page>=pageCount} onClick={()=>setPage(v=>v+1)} aria-label="Next page"><ChevronRight size={14}/></button></div></div>
         </aside>
 
-        <div className="student-profile-details">
+        <div key={selected.id} className={`student-profile-details ${profileAnimating ? "is-switching" : ""}`}>
           <section className="student-detail-card student-identity-card">
             <div className="student-identity-top"><span className="student-avatar student-avatar-large">{initials(selected.name)}</span><div className="student-identity-copy"><div className="student-name-line"><h2>{selected.name||"Select a student"}</h2><StatusBadge status={selected.status}/></div><p>{selected.id} · {selected.degree} · Section {selected.section}</p><div className="student-contact-line"><span><Mail size={12}/>{selected.email||"No email recorded"}</span><span><Phone size={12}/>{selected.phone||"No phone recorded"}</span></div></div><button className="student-outline-button" type="button" onClick={openEdit}><Pencil size={13}/> Edit profile</button></div>
             <div className="student-tabs" role="tablist" aria-label="Student profile sections">{["Profile overview","Applications · 3","Documents · 8","Progress & hours"].map(item=>{const value=item.split(" ·")[0];return <button key={item} type="button" role="tab" aria-selected={tab===value} className={tab===value?"active":""} onClick={()=>setTab(value)}>{item}</button>;})}</div>
