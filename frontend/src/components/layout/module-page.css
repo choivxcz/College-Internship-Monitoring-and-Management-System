@@ -1,0 +1,225 @@
+
+.module-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  min-width: 0;
+  animation: dashboardContentIn 0.35s ease both;
+}
+
+.module-page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.module-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #6558d9;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.module-page-heading h1 {
+  margin: 9px 0 7px;
+  color: #26334b;
+  font-size: clamp(23px, 2.2vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.module-page-heading p,
+.module-table-heading p {
+  margin: 0;
+  color: #7b879b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.module-action-button,
+.module-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 10px 13px;
+  border: 1px solid #e4e8f1;
+  border-radius: 9px;
+  background: #fff;
+  color: #4e46c9;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.module-action-button {
+  border-color: #5b52d9;
+  background: #5b52d9;
+  color: #fff;
+}
+
+.module-action-button:hover {
+  background: #4940c3;
+  transform: translateY(-1px);
+}
+
+.module-secondary-button:hover {
+  border-color: #c9c5fa;
+  background: #f7f6ff;
+}
+
+.module-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.module-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 20px;
+  border: 1px solid #e9edf5;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(31, 45, 78, 0.035);
+}
+
+.module-summary-card > span {
+  color: #758198;
+  font-size: 12px;
+}
+
+.module-summary-card strong {
+  color: #26334b;
+  font-size: 27px;
+  line-height: 1.2;
+}
+
+.module-summary-card small {
+  color: #8b95a7;
+  font-size: 11px;
+}
+
+.module-table-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e7ebf3;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(31, 45, 78, 0.035);
+}
+
+.module-table-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.module-table-heading h2 {
+  margin: 0 0 6px;
+  color: #2d3a52;
+  font-size: 16px;
+}
+
+.module-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.module-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.module-table-scroll th {
+  padding: 13px 17px;
+  background: #f8f9fc;
+  color: #7c879a;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.module-table-scroll td {
+  padding: 16px 17px;
+  border-top: 1px solid #f0f2f7;
+  color: #4a566c;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.module-table-scroll tbody tr:hover {
+  background: #fafaff;
+}
+
+.module-status {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #f0efff;
+  color: #574bd0;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.module-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-top: 1px solid #edf0f6;
+  color: #7b879b;
+  font-size: 11px;
+}
+
+.module-table-footer span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.module-demo-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0;
+  padding: 13px 15px;
+  border: 1px solid #e6e8fa;
+  border-radius: 10px;
+  background: #f8f8ff;
+  color: #6f7391;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.module-demo-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+@media (max-width: 760px) {
+  .module-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .module-page-heading {
+    flex-direction: column;
+  }
+
+  .module-table-heading {
+    align-items: flex-start;
+  }
+}
