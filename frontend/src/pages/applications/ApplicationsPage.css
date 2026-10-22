@@ -1,0 +1,748 @@
+/* Dedicated Applications page, matching the internship application tracking reference. */
+.application-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  color: #263653;
+  animation: applicationPageEnter .45s cubic-bezier(.2, .75, .25, 1) both;
+}
+
+.application-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.application-page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.application-page-heading h1 {
+  margin: 0 0 6px;
+  color: #263653;
+  font-size: clamp(24px, 2.1vw, 30px);
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+
+.application-page-heading p {
+  margin: 0;
+  color: #8794ad;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.application-record-button {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 11px;
+}
+
+/* Summary cards: the shared stat-card rules supply the exact dashboard reveal and hover motion. */
+.application-page .application-stat-grid {
+  margin-bottom: 0;
+}
+
+.application-page .stat-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.application-page .stat-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.application-page .stat-icon.app-tint-blue {
+  background: #eef1ff;
+  color: #5d6fe0;
+}
+
+/* Register */
+.application-page > .panel {
+  animation: dashboardPanelIn .72s .16s cubic-bezier(.2, .75, .25, 1) both;
+}
+
+.application-register-panel {
+  padding: 17px 16px 0;
+}
+
+.application-register-heading {
+  margin-bottom: 14px;
+}
+
+.application-register-heading p {
+  max-width: 380px;
+}
+
+.application-export {
+  font-size: 10px;
+}
+
+.application-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.75fr) repeat(4, minmax(100px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.application-search.search-field {
+  height: 36px;
+  padding: 0 11px;
+  border-radius: 8px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.application-search.search-field:focus-within {
+  border-color: #b7b0ff;
+  box-shadow: 0 0 0 3px rgba(81, 70, 220, .07);
+}
+
+.application-search input {
+  font-size: 10px;
+}
+
+.application-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 36px;
+  padding: 0 26px 0 10px;
+  border: 1px solid #e5eaf3;
+  border-radius: 8px;
+  background: #fff;
+  color: #4b5870;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.application-select:hover {
+  border-color: #d6d1ff;
+  background: #fdfdff;
+}
+
+.application-select:focus-within {
+  border-color: #b7b0ff;
+  box-shadow: 0 0 0 3px rgba(81, 70, 220, .07);
+}
+
+.application-select select {
+  width: 100%;
+  min-width: 0;
+  appearance: none;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.application-select svg {
+  position: absolute;
+  right: 9px;
+  pointer-events: none;
+  color: #8995a9;
+}
+
+.application-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.application-page .application-table {
+  min-width: 900px;
+}
+
+.application-page .application-table th,
+.application-page .application-table td {
+  white-space: nowrap;
+}
+
+.application-page .application-table th:nth-child(1) { width: 20%; }
+.application-page .application-table th:nth-child(2) { width: 19%; }
+.application-page .application-table th:nth-child(3) { width: 18%; }
+.application-page .application-table th:nth-child(4) { width: 11%; }
+.application-page .application-table th:nth-child(5) { width: 11%; }
+.application-page .application-table th:nth-child(6) { width: 12%; }
+.application-page .application-table th:nth-child(7) { width: 9%; }
+
+.application-page .application-table tbody tr {
+  cursor: pointer;
+  outline: none;
+}
+
+.application-page .application-table tbody tr:focus-visible {
+  outline: 2px solid #b6c5ff;
+  outline-offset: -2px;
+}
+
+.application-page .application-table tbody tr.is-selected {
+  background: linear-gradient(90deg, #f4f3ff, #f9f8ff);
+}
+
+.application-page .application-table tbody tr.is-selected td strong {
+  color: #4b42d5;
+}
+
+.application-date-cell {
+  color: #5f6c82;
+}
+
+.application-empty-state {
+  padding: 24px !important;
+  color: #8995a9 !important;
+  text-align: center !important;
+}
+
+.application-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 0 8px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.application-page .application-table tbody tr:hover .application-pill {
+  transform: translateY(-1px);
+}
+
+.app-status-closed { background: #eeedff; color: #574bd2; }
+.app-status-withdrawn { background: #f0f2f6; color: #748196; }
+.app-status-interview { background: #eef1ff; color: #5568d8; }
+.app-status-review { background: #e8f4ff; color: #3776b8; }
+
+.app-decision-accepted { background: #e5f7ef; color: #17845e; }
+.app-decision-rejected { background: #fff0f1; color: #c05561; }
+.app-decision-pending { background: #fff2df; color: #a76a19; }
+.app-decision-none {
+  padding-right: 0;
+  padding-left: 0;
+  background: transparent;
+  color: #7e8ba2;
+}
+
+.application-pagination {
+  padding: 10px 0 12px;
+}
+
+.application-pagination .application-page-number {
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 5px;
+}
+
+.application-pagination .application-page-number.is-current {
+  background: #eeedff;
+  color: #5146dc;
+  font-weight: 600;
+}
+
+.application-pagination .application-page-number:not(.is-current):hover {
+  background: #f5f5ff;
+}
+
+/* Application history */
+.application-history-wrap {
+  width: min(560px, 100%);
+  animation: dashboardPanelIn .72s .24s cubic-bezier(.2, .75, .25, 1) both;
+}
+
+.application-history-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  padding: 16px 18px 18px;
+}
+
+.application-history-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.application-history-heading h2 {
+  margin: 0 0 5px;
+  color: #2d3b55;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -.15px;
+}
+
+.application-history-sub {
+  margin: 0 0 14px;
+  color: #8995a9;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.application-history-sub strong {
+  color: #2f3b52;
+  font-weight: 600;
+}
+
+.application-timeline {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.application-timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  padding: 0 0 16px;
+}
+
+.application-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.application-timeline-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  bottom: 2px;
+  left: 9px;
+  width: 1px;
+  background: #e8ecf4;
+}
+
+.application-timeline-icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #eef0f8;
+  color: #6a76a6;
+}
+
+.application-timeline-icon.success { background: #e6f7ef; color: #1c8b68; }
+.application-timeline-icon.interview { background: #efedff; color: #5b50d8; }
+.application-timeline-icon.submitted { background: #edf4ff; color: #5277bb; }
+.application-timeline-icon.closed { background: #f0f2f6; color: #7e8ba2; }
+
+.application-timeline-copy strong {
+  display: block;
+  color: #2f3b52;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.application-timeline-copy p {
+  margin: 3px 0 0;
+  color: #8995a9;
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.application-timeline-date {
+  padding-top: 1px;
+  color: #8a96aa;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.application-footnote {
+  margin: -4px 0 0;
+  color: #98a2b5;
+  font-size: 9px;
+  line-height: 1.6;
+  animation: dashboardContentIn .7s .28s ease both;
+}
+
+/* Record application dialog */
+.application-modal-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(29, 39, 63, .38);
+  backdrop-filter: blur(3px);
+  animation: applicationBackdropIn .18s ease both;
+}
+
+.application-modal {
+  width: min(640px, 100%);
+  max-height: min(90vh, 780px);
+  overflow: auto;
+  border: 1px solid #e7ebf4;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 22px 70px rgba(25, 35, 60, .22);
+  animation: applicationModalIn .24s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.application-modal-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.application-modal-heading span {
+  color: #6558d9;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .1em;
+}
+
+.application-modal-heading h2 {
+  margin: 6px 0 4px;
+  color: #293752;
+  font-size: 21px;
+  letter-spacing: -.03em;
+}
+
+.application-modal-heading p {
+  margin: 0;
+  color: #8794ad;
+  font-size: 11px;
+}
+
+.application-modal-heading > button {
+  display: flex;
+  padding: 6px;
+  border: 0;
+  border-radius: 7px;
+  background: #f5f6fb;
+  color: #64718a;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.application-modal-heading > button:hover {
+  background: #eceefa;
+  color: #4a5570;
+}
+
+.application-modal form {
+  padding: 20px 24px 22px;
+}
+
+.application-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.application-form-wide {
+  grid-column: 1 / -1;
+}
+
+.application-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.application-form-field > span {
+  color: #58657d;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.application-form-field input,
+.application-form-field select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 37px;
+  padding: 9px 10px;
+  border: 1px solid #e2e7f0;
+  border-radius: 7px;
+  outline: 0;
+  background: #fff;
+  color: #35435e;
+  font: inherit;
+  font-size: 11px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.application-form-field input:focus,
+.application-form-field select:focus {
+  border-color: #8c83f0;
+  box-shadow: 0 0 0 3px rgba(91, 80, 231, .09);
+}
+
+.application-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #edf0f6;
+}
+
+.application-cancel-button,
+.application-primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex-shrink: 0;
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.application-cancel-button {
+  border-color: #e4e9f3;
+  background: #fff;
+  color: #35435e;
+}
+
+.application-cancel-button:hover {
+  border-color: #cfcaff;
+  background: #f8f8ff;
+}
+
+.application-primary-button {
+  background: #5548e8;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(85, 72, 232, .12);
+}
+
+.application-primary-button:hover {
+  background: #463bd0;
+  transform: translateY(-1px);
+}
+
+.application-form-note {
+  margin: 12px 0 0;
+  color: #929db0;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+/* Page entrance copies the Student Profiles reveal exactly. */
+@keyframes applicationPageEnter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Switching application history copies the Student Profiles color transition exactly. */
+.application-history-panel.is-switching {
+  animation: applicationHistorySwitchClean 680ms cubic-bezier(.22, 1, .36, 1) both;
+  box-shadow: 0 0 0 1px rgba(105, 89, 255, 0);
+}
+
+.application-history-panel.is-switching::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  top: -8px;
+  right: 0;
+  width: min(70%, 420px);
+  height: 150px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 35% 45%, rgba(105, 89, 255, .25), transparent 62%),
+    radial-gradient(ellipse at 72% 52%, rgba(36, 190, 174, .20), transparent 62%);
+  filter: blur(20px);
+  opacity: 0;
+  animation: applicationHistoryGlow 780ms ease-out both;
+}
+
+.application-history-panel.is-switching::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  top: 0;
+  bottom: 0;
+  left: -30%;
+  width: 28%;
+  border-radius: 12px;
+  background: linear-gradient(105deg,
+    transparent 0%,
+    rgba(105, 89, 255, .06) 25%,
+    rgba(105, 89, 255, .22) 43%,
+    rgba(36, 190, 174, .20) 58%,
+    rgba(255, 255, 255, .30) 68%,
+    transparent 100%);
+  filter: blur(7px);
+  opacity: 0;
+  transform: skewX(-12deg);
+  animation: applicationHistorySweep 680ms ease-out both;
+}
+
+.application-history-panel.is-switching .application-timeline-item {
+  animation: applicationHistoryItemIn 520ms cubic-bezier(.2, .8, .25, 1) both;
+}
+
+.application-history-panel.is-switching .application-timeline-item:nth-child(1) { animation-delay: 25ms; }
+.application-history-panel.is-switching .application-timeline-item:nth-child(2) { animation-delay: 75ms; }
+.application-history-panel.is-switching .application-timeline-item:nth-child(3) { animation-delay: 125ms; }
+.application-history-panel.is-switching .application-timeline-item:nth-child(4) { animation-delay: 175ms; }
+
+@keyframes applicationHistorySwitchClean {
+  0% { opacity: .72; transform: translateY(12px); box-shadow: 0 0 0 1px rgba(105, 89, 255, .28); }
+  45% { opacity: 1; box-shadow: 0 0 0 1px rgba(105, 89, 255, .20), 0 0 18px rgba(105, 89, 255, .10); }
+  100% { opacity: 1; transform: translateY(0); box-shadow: 0 0 0 1px rgba(105, 89, 255, 0); }
+}
+
+@keyframes applicationHistoryGlow {
+  0% { opacity: 0; transform: translate(10px, 8px) scale(.78); }
+  28% { opacity: 1; }
+  68% { opacity: .45; }
+  100% { opacity: 0; transform: translate(-4px, -4px) scale(1.08); }
+}
+
+@keyframes applicationHistorySweep {
+  0% { opacity: 0; left: -30%; }
+  20% { opacity: .75; }
+  65% { opacity: .4; }
+  100% { opacity: 0; left: 115%; }
+}
+
+@keyframes applicationHistoryItemIn {
+  0% { opacity: .65; transform: translateY(9px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes applicationBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes applicationModalIn {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 1050px) {
+  .application-filters {
+    grid-template-columns: minmax(160px, 1.4fr) repeat(2, minmax(100px, 1fr));
+  }
+
+  .application-search.search-field {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .application-page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .application-record-button {
+    align-self: flex-start;
+  }
+
+  .application-page .stat-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+  }
+
+  .application-register-panel {
+    padding: 14px 12px 0;
+  }
+
+  .application-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .application-search.search-field {
+    height: 38px;
+  }
+
+  .application-select {
+    height: 38px;
+  }
+
+  .application-history-wrap {
+    width: 100%;
+  }
+
+  .application-history-panel {
+    padding: 14px 13px 16px;
+  }
+
+  .application-modal form {
+    padding: 18px 16px 20px;
+  }
+
+  .application-modal-heading {
+    padding: 20px 16px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .application-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .application-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .application-form-wide {
+    grid-column: auto;
+  }
+
+  .application-timeline-item {
+    grid-template-columns: 20px minmax(0, 1fr);
+  }
+
+  .application-timeline-date {
+    grid-column: 2;
+    padding-top: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .application-page,
+  .application-page > .panel,
+  .application-history-wrap,
+  .application-history-panel,
+  .application-history-panel::before,
+  .application-history-panel::after,
+  .application-history-panel.is-switching,
+  .application-history-panel.is-switching .application-timeline-item,
+  .application-footnote,
+  .application-modal-backdrop,
+  .application-modal {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}

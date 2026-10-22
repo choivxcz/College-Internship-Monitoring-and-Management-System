@@ -5,6 +5,9 @@ import { Activity, Bell, BriefcaseBusiness, CalendarDays, CheckCircle2, ChevronD
 import "./dashboard.css";
 import ModulePage from "../../components/layout/ModulePage";
 import StudentProfilesPage from "../students/StudentProfilesPage";
+import ApplicationsPage from "../applications/ApplicationsPage";
+import DocumentsPage from "../documents/DocumentsPage";
+import ProgressMonitoringPage from "../progress/ProgressMonitoringPage";
 
 type AppRow = { name:string; id:string; program:string; organization:string; position:string; status:"Not applied"|"Applying"|"Accepted"|"Interning"|"Completed" };
 type Issue = { initials:string; name:string; id:string; program:string; issue:string; type:"red"|"orange"|"blue"; adviser:string; action:string };
@@ -93,6 +96,12 @@ export default function DashboardPage(){
    </>
    ) : active === "Student profiles" ? (
   <StudentProfilesPage />
+  ) : active === "Applications" ? (
+  <ApplicationsPage />
+  ) : active === "Documents" ? (
+  <DocumentsPage />
+  ) : active === "Progress monitoring" ? (
+  <ProgressMonitoringPage />
   ) : (
   <ModulePage active={active} />
   )}
