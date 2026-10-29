@@ -61,7 +61,7 @@ const MONTH_INDEX: Record<string, number> = {
 const seededApplications: Application[] = [
   {
     id: 1,
-    student: "Karl Sebastian Cuerdo",
+    student: "Paolo Villanueva",
     studentId: "2023-0147",
     program: "BSIT",
     section: "4A",

@@ -173,7 +173,7 @@ const initialStudents: StudentDocuments[] = [
   },
   {
     id: "2023-0147",
-    name: "Karl Sebastian Cuerdo",
+    name: "Paolo Villanueva",
     program: "BSIT",
     section: "4A",
     requirements: [
@@ -212,7 +212,7 @@ const initialStudents: StudentDocuments[] = [
         fileName: "medical_cuerdo.pdf",
         fileSize: "56 KB",
         submittedOn: "08 Oct 2026",
-        submittedBy: "Karl Sebastian Cuerdo",
+        submittedBy: "Paolo Villanueva",
         submittedRole: "Student",
         reviewedBy: "Queued for coordinator review",
         reviewedOn: "08 Oct, 3:20 PM",
@@ -240,7 +240,7 @@ const initialStudents: StudentDocuments[] = [
       },
       {
         title: "Medical certificate submitted",
-        detail: "Karl Sebastian Cuerdo · 08 Oct, 3:20 PM",
+        detail: "Paolo Villanueva · 08 Oct, 3:20 PM",
         tone: "neutral",
       },
       {

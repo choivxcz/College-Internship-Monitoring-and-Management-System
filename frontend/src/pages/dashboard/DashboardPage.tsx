@@ -20,7 +20,7 @@ const issues:Issue[]=[
  {initials:"CG",name:"Jillian Formezala",id:"2023-0261",program:"BSBA 4B",issue:"Weekly log overdue",type:"red",adviser:"Prof. Ana Tan",action:"Send reminder"}
 ];
 const rows:AppRow[]=[
- {name:"Karl Sebastian Cuerdo",id:"2023-0147",program:"BSIT 4A",organization:"BrightPath Technologies",position:"Software Dev. Intern",status:"Interning"},
+ {name:"Paolo Villanueva",id:"2023-0147",program:"BSIT 4A",organization:"BrightPath Technologies",position:"Software Dev. Intern",status:"Interning"},
  {name:"Janell Tagayun",id:"2023-0214",program:"BSIT 4A",organization:"Nexa Digital Studio",position:"Frontend Intern",status:"Accepted"},
  {name:"Marciano Salazar",id:"2023-0307",program:"BSIT 4B",organization:"Orbit Solutions",position:"QA Intern",status:"Applying"},
  {name:"Agapito Banda Jr.",id:"2023-0182",program:"BSIT 4B",organization:"Vertex Systems",position:"IT Support Intern",status:"Interning"},

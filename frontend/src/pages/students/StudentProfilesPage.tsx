@@ -55,7 +55,7 @@ const initialStudents: Student[] = [
     startDate:"09 Nov 2026",expectedCompletion:"12 Feb 2027",verifiedDocuments:4,totalDocuments:8
   },
   {
-    id:"2023-0308",name:"Karl Sebastian Cuerdo",program:"BSHM",section:"4B",status:"Not applied",hoursDone:0,requiredHours:600,
+    id:"2023-0308",name:"Paolo Villanueva",program:"BSHM",section:"4B",status:"Not applied",hoursDone:0,requiredHours:600,
     email:"karl.cuerdo@example.edu",phone:"+63 917 203 0308",degree:"Bachelor of Science in Hospitality Management (BSHM)",yearSection:"4th year · BSHM 4B",
     term:"1st semester, AY 2026–2027",course:"HM 401 · Internship / Practicum",adviser:"Ms. Ana Flores",adviserEmail:"a.flores@example.edu",
     emergencyName:"Jose Cuerdo",emergencyPhone:"+63 917 203 0309",organization:"Unassigned",organizationType:"Not yet placed",
