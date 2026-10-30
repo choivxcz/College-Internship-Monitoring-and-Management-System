@@ -1,45 +1,64 @@
-# College Internship Hub
+# College Internship Monitoring and Management System
 
-An internship monitoring and management workspace for internship coordinators at **LSPU-SCC**: placements, applications, required documents, and rendered hours in one place.
+## Overview
 
-> **Status:** front-end prototype running on sample data. The backend (`backend/`) hasn't been started yet, and the demo sign-in doesn't authenticate.
+The College Internship Monitoring and Management System (College Internship Hub) is a web-based prototype intended for the internship coordinators of LSPU-SCC. It consolidates the records involved in supervising student internships, namely placements, applications, required documents, and rendered hours, into a single workspace.
+
+The current version is a front-end prototype that operates on sample data. The back-end service (`backend/`) has not yet been implemented, and the sign-in screen is a demonstration that does not perform authentication. All names, organizations, and figures shown in the prototype are fictitious.
 
 ![Internship overview](docs/overview.jpg)
 
+## Objectives
+
+1. To give coordinators a single view of each student's placement status, from application to completion.
+2. To track the submission and verification of required internship documents.
+3. To monitor rendered hours, attendance, and weekly accomplishments throughout the internship period.
+
 ## Features
 
-- **Overview**: a placement pipeline (not applied, applying, accepted, interning, completed) where each segment filters the application register, plus the students who need follow-up.
-- **Student profiles** and an **application register** with search, filters, pagination, and CSV export of exactly the rows you filtered.
-- **Document verification** with a per-student requirements checklist and coordinator remarks.
-- **Progress monitoring** with rendered hours, attendance logs, weekly accomplishments, and adviser remarks.
-- **Keyboard friendly**: quick search on <kbd>Ctrl</kbd> + <kbd>K</kbd>, and <kbd>Esc</kbd> closes any dialog.
+1. Overview dashboard. A placement pipeline (not applied, applying, accepted, interning, completed) in which each stage filters the application register, together with a list of students who require follow-up.
+2. Student profiles and application register. Records can be searched, filtered, and paginated, and the filtered rows can be exported as a CSV file.
+3. Document verification. Each student has a checklist of requirements, with space for the coordinator's remarks.
+4. Progress monitoring. Rendered hours, attendance logs, weekly accomplishments, and adviser remarks are recorded per student.
+5. Keyboard support. Ctrl + K opens the quick search, and Esc closes any open dialog.
 
 | Progress monitoring | Document verification |
 |---|---|
 | ![Progress monitoring](docs/progress-monitoring.jpg) | ![Document verification](docs/documents.jpg) |
 
-## Tech
+## Technologies Used
 
-React · TypeScript · Vite · lucide-react
+- React
+- TypeScript
+- Vite
+- lucide-react (icons)
 
-## Run it locally
+## Installation and Usage
 
-Requires Node.js 18+.
+Node.js 18 or later is required.
 
 ```bash
 cd frontend
 npm install
-npm run dev        # http://localhost:5173
+npm run dev
 ```
 
-On the sign-in screen, choose **Admin**, enter any ID and password, and you'll land on the coordinator dashboard (demo only).
+The development server runs at http://localhost:5173. On the sign-in screen, select Admin and enter any ID and password to open the coordinator dashboard.
+
+To type-check and produce a production build in `frontend/dist`:
 
 ```bash
-npm run build      # type-check and build to frontend/dist
+npm run build
 ```
 
-All names, organizations, and figures in the prototype are sample data.
+## Repository Structure
 
----
+```
+frontend/   React and TypeScript client (pages, layout, components, styles)
+backend/    Reserved for the server application (not yet implemented)
+docs/       Screenshots used in this document
+```
 
-Built by [Karl Cuerdo](https://github.com/choivxcz).
+## Author
+
+Karl Sebastian V. Cuerdo
